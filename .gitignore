@@ -1,0 +1,32 @@
+# Marked Directories prefixed with _
+_*/
+
+# R studio
+.RData
+.Rhistory
+.Rproj.user
+
+# Visual Studio
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Microsoft Powerpoint
+**/*.pptx
+
+# Mac OS
+**/.DS_Store
+
+# jupyter notebook
+.ipynb_checkpoints
+
+# jupyterlab
+*.jupyter-workspace
+
+# spyder
+.spyproject/
+
+# python
+__pycache__
+**/*.pyc
