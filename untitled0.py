@@ -44,9 +44,10 @@ sns.pairplot(data=df, hue='origin')
 
 # %% Step 6 - MPG
 
-df.sort_values('mpg').head(5)[['make','model','origin','model_year','mpg']]
+columns_of_interest = ['make','model','origin','model_year','mpg']
+df.sort_values('mpg').head(5)[columns_of_interest]
 
-df.sort_values('mpg', ascending=False).head(5)[['make','model','origin','model_year','mpg']]
+df.sort_values('mpg', ascending=False).head(5)[columns_of_interest]
 
 
 # %% Step 7 - Convert the weight to a new categorical column
@@ -60,7 +61,10 @@ df['weight_category'].value_counts()
 
 # %% Step 8 - Create a cross table with origin versus weight
 
-pd.pivot_table(df, 
-               index = 'origin',
-               columns = 'weight_category',
-               aggfunc = 'size')
+origin_vs_weight = pd.pivot_table(df, 
+                                  index = 'origin',
+                                  columns = 'weight_category',
+                                  aggfunc = 'size')
+
+
+
