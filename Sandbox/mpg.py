@@ -1,78 +1,70 @@
-# %%
-
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# %%
+# %% Step 1 - load the mpg dataset
 
-# dict
-d = {
-    'name': ['Peter','Nienke','Johan','Jebbe'],
-    'residence': ['Lhee','Delft','Delft','Delft'],
-    }
+df = sns.load_dataset('mpg')
 
-# dataframe
-df = pd.DataFrame(d)
-
-df['wins'] = [4,7,2,3]
-
-# %% EDA - Exporatory Data Analysis
-
+# %% Step 2 - explore the dataset 
+    
 df.info()
 
-print( list(df.columns ) )
+# %% Drop rows with empty cells
 
-nrows, ncols = df.shape
+df.dropna(inplace=True)
+df.info()
 
-df['residence'].value_counts()
+# %% Step 3 - Display the distribution of the cars over the origin column
 
-# %%
+df['origin'].value_counts()
 
-url = 'https://nl.wikipedia.org/wiki/Provincies_van_Nederland'
+# %% Step 4 - Seperate the car name in a make and a model. 
+# Display the distribution of the makes. Fix the typos.
 
-df = pd.read_html(url, thousands='.', decimal=',')[0]
+df[['make', 'model']] = df['name'].str.split(n=1, expand=True)
 
-# %% ca-500.csv
+typos = {'chevroelt': 'chevrolet',
+         'chevy': 'chevrolet',
+         'maxda': 'mazda',
+         'mercedes-benz': 'mercedes',
+         'toyouta': 'toyota',
+         'vokswagen': 'volkswagen',
+         'vw': 'volkswagen'}
 
-pd.set_option('display.max_rows', 1000)
-pd.set_option('display.max_columns', 1000)
+df['make'] = df['make'].replace(typos)
 
-filename = r'Datasets/ca-500.csv'
-
-df = pd.read_csv(filename)
-
-df['city'].value_counts()
-
-selected = df.loc[df['city']=='Montreal', ['first_name','last_name','city','email']]
-selected = df.iloc[1:10, [0,1,4,9]]
-
-
-selected.to_csv('selected.csv')
-
-df2 = df.set_index('email')
+df['make'].value_counts().sort_index()
 
 
+# %% Step 5 - Plots
+
+sns.pairplot(data=df, hue='origin')
 
 
+# %% Step 6 - MPG
+
+columns_of_interest = ['make','model','origin','model_year','mpg']
+df.sort_values('mpg').head(5)[columns_of_interest]
+
+df.sort_values('mpg', ascending=False).head(5)[columns_of_interest]
 
 
+# %% Step 7 - Convert the weight to a new categorical column
+
+weigth_categories = [0, 2500, 3500, 9999]
+labels = ['light', 'medium', 'heavy']
+df['weight_category'] = pd.cut(df['weight'], weigth_categories, labels=labels)
+
+df['weight_category'].value_counts()
 
 
+# %% Step 8 - Create a cross table with origin versus weight
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+origin_vs_weight = pd.pivot_table(df, 
+                                  index = 'origin',
+                                  columns = 'weight_category',
+                                  aggfunc = 'size')
 
 
 
