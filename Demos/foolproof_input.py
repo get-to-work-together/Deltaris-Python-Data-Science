@@ -10,8 +10,8 @@ def get_number_input(lower, upper):
             else:
                 print(f'That number is not between {lower} and {upper}!')
         except ValueError:
-            print(f'That is not a number!')
+            print('That is not a number!')
 
 
-if __name__ is '__main__':
+if __name__ == '__main__':
     print( get_number_input(1, 10) )
