@@ -10,7 +10,7 @@ import statsmodels as sm
 #
 # Getij metingen Terschelling
 
-filename = '../Datasets/20250208_012.csv'
+filename = 'Datasets/20250208_012.csv'
 
 
 df = pd.read_csv(filename, sep=';', encoding='cp1252', low_memory=False, na_values=999999999)
@@ -77,7 +77,7 @@ plot_waterhoogte(waterhoogte)
 
 # %% last year
 
-year = '2024'
+year = '2024-12'
 waterhoogte_year = waterhoogte.loc[year]
 plot_waterhoogte(waterhoogte_year)
 
@@ -129,11 +129,11 @@ mean_delay = delays.mean()
 
 str_period = format_timedelta(mean_delay, sample_interval)
 
-print(f'Mean delay: {mean_delay} - Getij periode: {str_period} uur')
+print(f'Mean delay: {mean_delay} - Getij periode: {str_period}')
 
 # %% FFT
 
-from scipy.fft import fft, ifft
+from scipy.fft import fft
 
 # x = waterhoogte_year.index - waterhoogte_year.index.min()
 y = waterhoogte_year.values
@@ -184,3 +184,9 @@ ax.grid()
 ax.legend()
 
 plt.show()
+
+
+# %%
+
+df_train = waterhoogte['2023']
+df_test = waterhoogte['2023']

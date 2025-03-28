@@ -39,7 +39,7 @@ df['make'].value_counts().sort_index()
 
 # %% Step 5 - Plots
 
-sns.pairplot(data=df, hue='origin')
+sns.pairplot(data=df, hue='mpg')
 
 
 # %% Step 6 - MPG
@@ -64,7 +64,11 @@ df['weight_category'].value_counts()
 origin_vs_weight = pd.pivot_table(df, 
                                   index = 'origin',
                                   columns = 'weight_category',
-                                  aggfunc = 'size')
+                                  aggfunc = 'size',
+                                  fill_value = 0)
 
 
+origin_vs_weight
+
+df[['weight_category','mpg']].groupby('weight_category').agg(['min','mean','max']).round(1)
 
